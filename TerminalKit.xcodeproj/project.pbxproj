@@ -10,6 +10,9 @@
 		24622AD91C3AA5610049D7FA /* TerminalKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 24622AD81C3AA5610049D7FA /* TerminalKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		24622AE31C3AB89D0049D7FA /* libvterm.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 24622AE21C3AB89D0049D7FA /* libvterm.dylib */; };
 		24622AE71C3AB9030049D7FA /* libvterm.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 24622AE21C3AB89D0049D7FA /* libvterm.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		24622AEA1C3ABE970049D7FA /* TKTerminalView.h in Headers */ = {isa = PBXBuildFile; fileRef = 24622AE81C3ABE970049D7FA /* TKTerminalView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		24622AEB1C3ABE970049D7FA /* TKTerminalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 24622AE91C3ABE970049D7FA /* TKTerminalView.m */; };
+		24622AED1C3AC5730049D7FA /* TKTerminalViewPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 24622AEC1C3AC3A00049D7FA /* TKTerminalViewPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,6 +34,9 @@
 		24622ADA1C3AA5610049D7FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		24622AE21C3AB89D0049D7FA /* libvterm.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvterm.dylib; path = Frameworks/libvterm.dylib; sourceTree = "<group>"; };
 		24622AE41C3AB8A90049D7FA /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; name = include; path = Frameworks/include; sourceTree = "<group>"; };
+		24622AE81C3ABE970049D7FA /* TKTerminalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKTerminalView.h; sourceTree = "<group>"; };
+		24622AE91C3ABE970049D7FA /* TKTerminalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKTerminalView.m; sourceTree = "<group>"; };
+		24622AEC1C3AC3A00049D7FA /* TKTerminalViewPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TKTerminalViewPrivate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +74,9 @@
 			isa = PBXGroup;
 			children = (
 				24622AD81C3AA5610049D7FA /* TerminalKit.h */,
+				24622AE81C3ABE970049D7FA /* TKTerminalView.h */,
+				24622AEC1C3AC3A00049D7FA /* TKTerminalViewPrivate.h */,
+				24622AE91C3ABE970049D7FA /* TKTerminalView.m */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -96,7 +105,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				24622AEA1C3ABE970049D7FA /* TKTerminalView.h in Headers */,
 				24622AD91C3AA5610049D7FA /* TerminalKit.h in Headers */,
+				24622AED1C3AC5730049D7FA /* TKTerminalViewPrivate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -168,6 +179,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				24622AEB1C3ABE970049D7FA /* TKTerminalView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
