@@ -13,6 +13,8 @@
 		24622AEA1C3ABE970049D7FA /* TKTerminalView.h in Headers */ = {isa = PBXBuildFile; fileRef = 24622AE81C3ABE970049D7FA /* TKTerminalView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		24622AEB1C3ABE970049D7FA /* TKTerminalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 24622AE91C3ABE970049D7FA /* TKTerminalView.m */; };
 		24622AED1C3AC5730049D7FA /* TKTerminalViewPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 24622AEC1C3AC3A00049D7FA /* TKTerminalViewPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		24622AF01C3AC6E40049D7FA /* TKKeyMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 24622AEE1C3AC6E40049D7FA /* TKKeyMap.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		24622AF11C3AC6E40049D7FA /* TKKeyMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 24622AEF1C3AC6E40049D7FA /* TKKeyMap.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -37,6 +39,8 @@
 		24622AE81C3ABE970049D7FA /* TKTerminalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKTerminalView.h; sourceTree = "<group>"; };
 		24622AE91C3ABE970049D7FA /* TKTerminalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKTerminalView.m; sourceTree = "<group>"; };
 		24622AEC1C3AC3A00049D7FA /* TKTerminalViewPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TKTerminalViewPrivate.h; sourceTree = "<group>"; };
+		24622AEE1C3AC6E40049D7FA /* TKKeyMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKKeyMap.h; sourceTree = "<group>"; };
+		24622AEF1C3AC6E40049D7FA /* TKKeyMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKKeyMap.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +81,8 @@
 				24622AE81C3ABE970049D7FA /* TKTerminalView.h */,
 				24622AEC1C3AC3A00049D7FA /* TKTerminalViewPrivate.h */,
 				24622AE91C3ABE970049D7FA /* TKTerminalView.m */,
+				24622AEE1C3AC6E40049D7FA /* TKKeyMap.h */,
+				24622AEF1C3AC6E40049D7FA /* TKKeyMap.m */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -105,9 +111,10 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				24622AEA1C3ABE970049D7FA /* TKTerminalView.h in Headers */,
 				24622AD91C3AA5610049D7FA /* TerminalKit.h in Headers */,
+				24622AEA1C3ABE970049D7FA /* TKTerminalView.h in Headers */,
 				24622AED1C3AC5730049D7FA /* TKTerminalViewPrivate.h in Headers */,
+				24622AF01C3AC6E40049D7FA /* TKKeyMap.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -180,6 +187,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				24622AEB1C3ABE970049D7FA /* TKTerminalView.m in Sources */,
+				24622AF11C3AC6E40049D7FA /* TKKeyMap.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
