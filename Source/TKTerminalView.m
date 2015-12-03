@@ -10,6 +10,7 @@
 	VTermScreen *mVTermScreen;
 
 	TKTerminalScreen *mTerminalScreen;
+	NSFileHandle *mFileHandle;
 }
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
@@ -56,6 +57,8 @@
 
 - (void)dealloc {
 	vterm_free(mVTerm);
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	// TODO: Possibly disable mFileHandle's notifications?
 }
 
 - (void)updateSize {
@@ -64,11 +67,25 @@
 	_currentHeight = viewSize.height / CELL_HEIGHT;
 }
 
-- (void)connect {
+- (void)connectToFD:(int)fd {
+	mFileHandle = [[NSFileHandle alloc] initWithFileDescriptor:fd];
+	[mFileHandle readInBackgroundAndNotify];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(readFromPipe:) name:NSFileHandleReadCompletionNotification object:mFileHandle];
+
 	vterm_screen_reset(mVTermScreen, 1);
 
 	VTermState *state = vterm_obtain_state(mVTerm);
 	vterm_state_set_termprop(state, VTERM_PROP_CURSORSHAPE, &(VTermValue){ .number = VTERM_PROP_CURSORSHAPE_BLOCK });
+}
+
+- (void)readFromPipe:(NSNotification*)notification {
+	NSData *data = [notification userInfo][NSFileHandleNotificationDataItem];
+	vterm_input_write(mVTerm, [data bytes], [data length]);
+
+	vterm_screen_flush_damage(mVTermScreen);
+
+	// Read again.
+	[mFileHandle readInBackgroundAndNotify];
 }
 
 @end
