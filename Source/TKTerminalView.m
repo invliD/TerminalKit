@@ -67,6 +67,24 @@
 	_currentHeight = viewSize.height / CELL_HEIGHT;
 }
 
+- (void)setFrameSize:(NSSize)newSize {
+	[super setFrameSize:newSize];
+	if (![self inLiveResize]) {
+		[self resizeTerminal];
+	}
+}
+
+- (void)viewDidEndLiveResize {
+	[super viewDidEndLiveResize];
+	[self resizeTerminal];
+}
+
+- (void)resizeTerminal {
+	[self updateSize];
+	vterm_set_size(mVTerm, _currentHeight, _currentWidth);
+	vterm_screen_flush_damage(mVTermScreen);
+}
+
 - (void)connectToFD:(int)fd {
 	mFileHandle = [[NSFileHandle alloc] initWithFileDescriptor:fd];
 	[mFileHandle readInBackgroundAndNotify];
