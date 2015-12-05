@@ -1,5 +1,6 @@
 #import "TKTerminalViewPrivate.h"
 #import "TKTerminalScreen.h"
+#import "TKKeyMap.h"
 
 // TODO: Move to config (or calculate from font size)
 #define CELL_WIDTH 8
@@ -104,6 +105,57 @@
 
 	// Read again.
 	[mFileHandle readInBackgroundAndNotify];
+}
+
+- (BOOL)acceptsFirstResponder {
+	return true;
+}
+
+- (void)keyDown:(NSEvent *)event {
+	// Don't send cmd keystrokes.
+	if ([event modifierFlags] & NSCommandKeyMask) {
+		[super keyDown:event];
+		return;
+	}
+
+	VTermModifier mod = [TKKeyMap convertModifierToVTerm:[event modifierFlags]];
+	VTermKey key = [TKKeyMap convertCharactersToVTerm:[event characters]];
+
+	if (key != VTERM_KEY_NONE) {
+		vterm_keyboard_key(mVTerm, key, mod);
+		[self flushBuffer];
+		return;
+	}
+	NSString *toSend;
+	if (mod & VTERM_MOD_CTRL)
+		toSend = [event charactersIgnoringModifiers];
+	else {
+		toSend = [event characters];
+		mod = VTERM_MOD_NONE;
+	}
+
+	[self sendString:toSend modifier:mod];
+}
+
+- (void)sendString:(NSString*)str modifier:(VTermModifier)mod {
+	for (int i = 0; i < [str length]; i++) {
+		if (vterm_output_get_buffer_remaining(mVTerm) < 6)
+			[self flushBuffer];
+		vterm_keyboard_unichar(mVTerm, [str characterAtIndex:i], mod);
+	}
+	[self flushBuffer];
+}
+
+- (void)flushBuffer {
+	size_t bufflen = vterm_output_get_buffer_current(mVTerm);
+	if (bufflen > 0) {
+		char buffer[bufflen];
+		bufflen = vterm_output_read(mVTerm, buffer, bufflen);
+		size_t written = 0;
+		while (written < bufflen) {
+			written += write([mFileHandle fileDescriptor], buffer + written, bufflen - written);
+		}
+	}
 }
 
 @end
