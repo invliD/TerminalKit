@@ -158,4 +158,66 @@
 	}
 }
 
+- (void)drawRect:(NSRect)dirtyRect {
+	// TODO: Revisit this.
+	[[NSColor grayColor] set];
+	NSRectFill([self bounds]);
+
+	for (unsigned int j = 0; j < _currentHeight; j++) {
+		for (unsigned int i = 0; i < _currentWidth; i++) {
+			VTermPos pos = {j, i};
+			VTermScreenCell cell;
+			vterm_screen_get_cell(mVTermScreen, pos, &cell);
+			[self drawCell:&cell atPosition:pos];
+		}
+	}
+}
+
+- (void)drawCell:(VTermScreenCell*)cell atPosition:(VTermPos)pos {
+	CGRect cellPosition = [self rectFromPosition:pos];
+
+	NSColor *fgColor = [self colorFromVTColor:cell->fg];
+	NSColor *bgColor = [self colorFromVTColor:cell->bg];
+	[bgColor set];
+	NSRectFill(cellPosition);
+
+	// Find NULL-termination.
+	NSUInteger length;
+	for (length = 0; cell->chars[length]; length++);
+	NSString *character = [NSString stringWithCharacters:cell->chars length:length];
+
+	// TODO: Move font and font size to config.
+	CGFloat fontSize = 14;
+	NSString *fontName;
+	if (cell->attrs.bold)
+		fontName = @"Menlo-Bold";
+	else
+		fontName = @"Menlo";
+	NSFont *font = [NSFont fontWithName:fontName size:fontSize];
+
+	NSDictionary *attributes = @{
+		NSFontAttributeName: font,
+		NSForegroundColorAttributeName: fgColor,
+	};
+	NSAttributedString *formattedChar = [[NSAttributedString alloc] initWithString:character attributes:attributes];
+
+	[formattedChar drawAtPoint:cellPosition.origin];
+}
+
+- (CGRect)rectFromPosition:(VTermPos)pos {
+	CGRect rect;
+	rect.origin.x = [self bounds].origin.x + (pos.col * CELL_WIDTH);
+	rect.origin.y = [self bounds].origin.y + [self bounds].size.height - ((pos.row + 1) * CELL_HEIGHT);
+	rect.size.width = CELL_WIDTH;
+	rect.size.height = CELL_HEIGHT;
+	return rect;
+}
+
+- (NSColor*)colorFromVTColor:(VTermColor)vtColor {
+	CGFloat red = vtColor.red;
+	CGFloat green = vtColor.green;
+	CGFloat blue = vtColor.blue;
+	return [NSColor colorWithRed:(red / 255) green:(green / 255) blue:(blue / 255) alpha:1];
+}
+
 @end
