@@ -61,7 +61,9 @@ static VTermScreenCallbacks screen_callbacks = {
 }
 
 - (int) damageInRect:(VTermRect)rect {
-	return 0;
+	// TODO: Only force redraw in the supplied rect.
+	[mView setNeedsDisplay:true];
+	return 1;
 }
 
 - (int) moveRectFrom:(VTermRect)src to:(VTermRect)dest {
