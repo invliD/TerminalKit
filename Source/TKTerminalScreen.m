@@ -46,6 +46,8 @@ static VTermScreenCallbacks screen_callbacks = {
 	TKTerminalView *mView;
 	VTerm* mVTerm;
 	VTermScreen* mVTermScreen;
+
+	NSMutableArray *mScrollbackBuffer;
 }
 
 + (instancetype)screenWithTerminalView:(TKTerminalView*)view vTerm:(VTerm*)vterm {
@@ -83,11 +85,28 @@ static VTermScreenCallbacks screen_callbacks = {
 }
 
 - (int) pushScrollbackLine:(VTermScreenCell*)cells cols:(int)cols {
-    return 0;
+	// TODO: Add scrollback limit
+
+	VTermScreenCell* cells_copy = malloc(sizeof(cells[0]) * cols);
+	memcpy(cells_copy, cells, sizeof(cells[0]) * cols);
+	[mScrollbackBuffer addObject:@[@(cols), [NSValue valueWithPointer:cells_copy]]];
+	return 1;
 }
 
 - (int) popScrollbackLine:(VTermScreenCell*)cells cols:(int)cols {
-    return 0;
+	if ([mScrollbackBuffer count] == 0)
+		return 0;
+
+	NSArray *line = [mScrollbackBuffer lastObject];
+	[mScrollbackBuffer removeLastObject];
+
+	int cols_saved = [line[0] intValue];
+	VTermScreenCell* cells_saved;
+	[line[1] getValue:&cells_saved];
+
+	memcpy(cells, cells_saved, cols < cols_saved ? cols : cols_saved);
+	free(cells_saved);
+	return 1;
 }
 
 @end
