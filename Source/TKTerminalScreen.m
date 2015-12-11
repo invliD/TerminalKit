@@ -1,5 +1,7 @@
 #import "TKTerminalScreen.h"
 
+@import AudioToolbox;
+
 static inline TKTerminalScreen *obj(void *user_data) {
 	return (__bridge TKTerminalScreen*)user_data;
 }
@@ -81,7 +83,9 @@ static VTermScreenCallbacks screen_callbacks = {
 }
 
 - (int) triggerBell {
-    return 0;
+	// TODO: Add to config.
+	AudioServicesPlayAlertSound(kSystemSoundID_UserPreferredAlert);
+	return 1;
 }
 
 - (int) pushScrollbackLine:(VTermScreenCell*)cells cols:(int)cols {
