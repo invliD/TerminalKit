@@ -168,13 +168,14 @@
 			VTermPos pos = {j, i};
 			VTermScreenCell cell;
 			vterm_screen_get_cell(mVTermScreen, pos, &cell);
-			[self drawCell:&cell atPosition:pos];
+			NSUInteger width = [self drawCell:&cell atPosition:pos];
+			i += width - 1;
 		}
 	}
 }
 
-- (void)drawCell:(VTermScreenCell*)cell atPosition:(VTermPos)pos {
-	CGRect cellPosition = [self rectFromPosition:pos];
+- (NSUInteger)drawCell:(VTermScreenCell*)cell atPosition:(VTermPos)pos {
+	CGRect cellPosition = [self rectFromPosition:pos width:cell->width];
 
 	NSColor *fgColor = [self colorFromVTColor:cell->fg];
 	NSColor *bgColor = [self colorFromVTColor:cell->bg];
@@ -184,31 +185,35 @@
 	// Find NULL-termination.
 	NSUInteger length;
 	for (length = 0; cell->chars[length]; length++);
-	NSString *character = [NSString stringWithCharacters:cell->chars length:length];
+	if (length) {
+		NSData *data = [NSData dataWithBytes:cell->chars length:length * sizeof(cell->chars[0])];
+		NSString *character = [[NSString alloc] initWithData:data encoding:NSUTF32LittleEndianStringEncoding];
 
-	// TODO: Move font and font size to config.
-	CGFloat fontSize = 14;
-	NSString *fontName;
-	if (cell->attrs.bold)
-		fontName = @"Menlo-Bold";
-	else
-		fontName = @"Menlo";
-	NSFont *font = [NSFont fontWithName:fontName size:fontSize];
+		// TODO: Move font and font size to config.
+		CGFloat fontSize = 14;
+		NSString *fontName;
+		if (cell->attrs.bold)
+			fontName = @"Menlo-Bold";
+		else
+			fontName = @"Menlo";
+		NSFont *font = [NSFont fontWithName:fontName size:fontSize];
 
-	NSDictionary *attributes = @{
-		NSFontAttributeName: font,
-		NSForegroundColorAttributeName: fgColor,
-	};
-	NSAttributedString *formattedChar = [[NSAttributedString alloc] initWithString:character attributes:attributes];
+		NSDictionary *attributes = @{
+			NSFontAttributeName: font,
+			NSForegroundColorAttributeName: fgColor,
+		};
+		NSAttributedString *formattedChar = [[NSAttributedString alloc] initWithString:character attributes:attributes];
 
-	[formattedChar drawAtPoint:cellPosition.origin];
+		[formattedChar drawAtPoint:cellPosition.origin];
+	}
+	return cell->width;
 }
 
-- (CGRect)rectFromPosition:(VTermPos)pos {
+- (CGRect)rectFromPosition:(VTermPos)pos width:(NSUInteger)width {
 	CGRect rect;
 	rect.origin.x = [self bounds].origin.x + (pos.col * CELL_WIDTH);
 	rect.origin.y = [self bounds].origin.y + [self bounds].size.height - ((pos.row + 1) * CELL_HEIGHT);
-	rect.size.width = CELL_WIDTH;
+	rect.size.width = width * CELL_WIDTH;
 	rect.size.height = CELL_HEIGHT;
 	return rect;
 }
