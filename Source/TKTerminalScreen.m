@@ -65,8 +65,7 @@ static VTermScreenCallbacks screen_callbacks = {
 }
 
 - (int) damageInRect:(VTermRect)rect {
-	// TODO: Only force redraw in the supplied rect.
-	[mView setNeedsDisplay:true];
+	[mView setNeedsDisplayInRect:[mView rectFromVTRect:rect]];
 	return 1;
 }
 

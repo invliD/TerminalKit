@@ -4,4 +4,6 @@
 
 @interface TKTerminalView ()
 
+- (CGRect)rectFromVTRect:(VTermRect)vtRect;
+
 @end

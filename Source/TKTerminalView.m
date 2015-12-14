@@ -163,6 +163,7 @@
 	[[NSColor grayColor] set];
 	NSRectFill([self bounds]);
 
+	// TODO: Support partial redraw.
 	for (unsigned int j = 0; j < _currentHeight; j++) {
 		for (unsigned int i = 0; i < _currentWidth; i++) {
 			VTermPos pos = {j, i};
@@ -216,6 +217,15 @@
 	rect.size.width = width * CELL_WIDTH;
 	rect.size.height = CELL_HEIGHT;
 	return rect;
+}
+
+- (CGRect)rectFromVTRect:(VTermRect)vtRect {
+	CGRect cgRect;
+	cgRect.origin.x = [self bounds].origin.x + (vtRect.start_col * CELL_WIDTH);
+	cgRect.origin.y = [self bounds].origin.y + [self bounds].size.height - ((vtRect.end_row + 1) * CELL_HEIGHT);
+	cgRect.size.width = (vtRect.end_col - vtRect.start_col + 1) * CELL_WIDTH;
+	cgRect.size.height = (vtRect.end_row - vtRect.start_row + 1) * CELL_HEIGHT;
+	return cgRect;
 }
 
 - (NSColor*)colorFromVTColor:(VTermColor)vtColor {
