@@ -161,11 +161,11 @@
 - (void)drawRect:(NSRect)dirtyRect {
 	// TODO: Revisit this.
 	[[NSColor grayColor] set];
-	NSRectFill([self bounds]);
+	NSRectFill(dirtyRect);
 
-	// TODO: Support partial redraw.
-	for (unsigned int j = 0; j < _currentHeight; j++) {
-		for (unsigned int i = 0; i < _currentWidth; i++) {
+	VTermRect vtRect = [self vtRectFromRect:dirtyRect];
+	for (unsigned int j = vtRect.start_row; j <= vtRect.end_row; j++) {
+		for (unsigned int i = vtRect.start_col; i <= vtRect.end_col; i++) {
 			VTermPos pos = {j, i};
 			VTermScreenCell cell;
 			vterm_screen_get_cell(mVTermScreen, pos, &cell);
@@ -226,6 +226,15 @@
 	cgRect.size.width = (vtRect.end_col - vtRect.start_col + 1) * CELL_WIDTH;
 	cgRect.size.height = (vtRect.end_row - vtRect.start_row + 1) * CELL_HEIGHT;
 	return cgRect;
+}
+
+- (VTermRect)vtRectFromRect:(CGRect)rect {
+	VTermRect vtRect;
+	vtRect.start_col = (rect.origin.x - [self bounds].origin.x) / CELL_WIDTH;
+	vtRect.end_col = (rect.size.width / CELL_WIDTH) + vtRect.start_col - 1;
+	vtRect.end_row = ([self bounds].origin.y + [self bounds].size.height - rect.origin.y) / CELL_HEIGHT - 1;
+	vtRect.start_row = (vtRect.end_row + 1) - (rect.size.height / CELL_HEIGHT);
+	return vtRect;
 }
 
 - (NSColor*)colorFromVTColor:(VTermColor)vtColor {
