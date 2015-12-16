@@ -1,12 +1,15 @@
 #import "TKTerminalViewPrivate.h"
 #import "TKTerminalScreen.h"
 #import "TKKeyMap.h"
+#import "TKFontManager.h"
 
 // TODO: Move to config (or calculate from font size)
 #define CELL_WIDTH 8
 #define CELL_HEIGHT 19
 
 @implementation TKTerminalView {
+	TKFontManager *mFontManager;
+
 	VTerm *mVTerm;
 	VTermScreen *mVTermScreen;
 
@@ -33,6 +36,9 @@
 }
 
 - (void)initialize {
+	// TODO: Move font and font size to config.
+	mFontManager = [TKFontManager managerWithFontName:@"Menlo" size:14];
+
 	// Create vterm
 	[self updateSize];
 	mVTerm = vterm_new(_currentWidth, _currentHeight);
@@ -190,14 +196,11 @@
 		NSData *data = [NSData dataWithBytes:cell->chars length:length * sizeof(cell->chars[0])];
 		NSString *character = [[NSString alloc] initWithData:data encoding:NSUTF32LittleEndianStringEncoding];
 
-		// TODO: Move font and font size to config.
-		CGFloat fontSize = 14;
-		NSString *fontName;
+		NSFont *font;
 		if (cell->attrs.bold)
-			fontName = @"Menlo-Bold";
+			font = [mFontManager boldFont];
 		else
-			fontName = @"Menlo";
-		NSFont *font = [NSFont fontWithName:fontName size:fontSize];
+			font = [mFontManager regularFont];
 
 		NSDictionary *attributes = @{
 			NSFontAttributeName: font,

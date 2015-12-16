@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		240B63661C3D9AF900AADFAA /* TKFontManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 240B63641C3D9AF900AADFAA /* TKFontManager.h */; };
+		240B63671C3D9AF900AADFAA /* TKFontManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 240B63651C3D9AF900AADFAA /* TKFontManager.m */; };
 		24622AD91C3AA5610049D7FA /* TerminalKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 24622AD81C3AA5610049D7FA /* TerminalKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		24622AE31C3AB89D0049D7FA /* libvterm.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 24622AE21C3AB89D0049D7FA /* libvterm.dylib */; };
 		24622AE71C3AB9030049D7FA /* libvterm.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 24622AE21C3AB89D0049D7FA /* libvterm.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -33,6 +35,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		240B63641C3D9AF900AADFAA /* TKFontManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKFontManager.h; sourceTree = "<group>"; };
+		240B63651C3D9AF900AADFAA /* TKFontManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKFontManager.m; sourceTree = "<group>"; };
 		24622AD51C3AA5610049D7FA /* TerminalKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TerminalKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		24622AD81C3AA5610049D7FA /* TerminalKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TerminalKit.h; sourceTree = "<group>"; };
 		24622ADA1C3AA5610049D7FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -89,6 +93,8 @@
 				24622AEF1C3AC6E40049D7FA /* TKKeyMap.m */,
 				24622AF21C3ACFF70049D7FA /* TKTerminalScreen.h */,
 				24622AF31C3ACFF70049D7FA /* TKTerminalScreen.m */,
+				240B63641C3D9AF900AADFAA /* TKFontManager.h */,
+				240B63651C3D9AF900AADFAA /* TKFontManager.m */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -119,6 +125,7 @@
 			files = (
 				24622AD91C3AA5610049D7FA /* TerminalKit.h in Headers */,
 				24622AEA1C3ABE970049D7FA /* TKTerminalView.h in Headers */,
+				240B63661C3D9AF900AADFAA /* TKFontManager.h in Headers */,
 				24622AED1C3AC5730049D7FA /* TKTerminalViewPrivate.h in Headers */,
 				24622AF01C3AC6E40049D7FA /* TKKeyMap.h in Headers */,
 				24622AF41C3ACFF70049D7FA /* TKTerminalScreen.h in Headers */,
@@ -196,6 +203,7 @@
 				24622AF51C3ACFF70049D7FA /* TKTerminalScreen.m in Sources */,
 				24622AEB1C3ABE970049D7FA /* TKTerminalView.m in Sources */,
 				24622AF11C3AC6E40049D7FA /* TKKeyMap.m in Sources */,
+				240B63671C3D9AF900AADFAA /* TKFontManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
