@@ -143,6 +143,12 @@
 	[self sendString:toSend modifier:mod];
 }
 
+- (void)paste:(id)sender {
+	NSPasteboard *pb = [NSPasteboard generalPasteboard];
+	NSString *paste = [pb stringForType:NSPasteboardTypeString];
+	[self sendString:paste modifier:VTERM_MOD_NONE];
+}
+
 - (void)sendString:(NSString*)str modifier:(VTermModifier)mod {
 	for (int i = 0; i < [str length]; i++) {
 		if (vterm_output_get_buffer_remaining(mVTerm) < 6)
