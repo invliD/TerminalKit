@@ -48,13 +48,6 @@
 	VTermState *state = vterm_obtain_state(mVTerm);
 	vterm_state_set_bold_highbright(state, 1);
 
-	// Set up colors
-	// TODO: Move to config.
-	VTermColor default_fg = { 0, 0, 0 };
-	VTermColor default_bg = { 200, 200, 200 };
-	vterm_state_set_default_colors(state, &default_fg, &default_bg);
-	// TODO: Set color palette.
-
 	// Set up screen
 	mVTermScreen = vterm_obtain_screen(mVTerm);
 	vterm_screen_enable_altscreen(mVTermScreen, 1);
@@ -66,6 +59,31 @@
 	vterm_free(mVTerm);
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	// TODO: Possibly disable mFileHandle's notifications?
+}
+
+- (void)setDefaultTextColor:(NSColor*)fgColor backgroundColor:(NSColor*)bgColor {
+	VTermState *state = vterm_obtain_state(mVTerm);
+	VTermColor vtFGColor = [self vtColorFromColor:fgColor];
+	VTermColor vtBGColor = [self vtColorFromColor:bgColor];
+	vterm_state_set_default_colors(state, &vtFGColor, &vtBGColor);
+}
+
+- (void)setPaletteColor:(NSColor*)color forIndex:(int)index {
+	VTermState *state = vterm_obtain_state(mVTerm);
+	VTermColor vtColor = [self vtColorFromColor:color];
+	vterm_state_set_palette_color(state, index, &vtColor);
+}
+
+- (void)setPaletteColors:(NSArray*)colors {
+	if ([colors count] != 16) {
+		[NSException raise:NSInvalidArgumentException format:@"Palette size must be 16."];
+	}
+
+	VTermState *state = vterm_obtain_state(mVTerm);
+	for (int i = 0; i < 16; i++) {
+		VTermColor vtColor = [self vtColorFromColor:colors[i]];
+		vterm_state_set_palette_color(state, i, &vtColor);
+	}
 }
 
 - (void)updateSize {
@@ -251,6 +269,14 @@
 	CGFloat green = vtColor.green;
 	CGFloat blue = vtColor.blue;
 	return [NSColor colorWithRed:(red / 255) green:(green / 255) blue:(blue / 255) alpha:1];
+}
+
+- (VTermColor)vtColorFromColor:(NSColor*)color {
+	VTermColor vtColor;
+	vtColor.red = [color redComponent] * 255;
+	vtColor.green = [color greenComponent] * 255;
+	vtColor.blue = [color blueComponent] * 255;
+	return vtColor;
 }
 
 @end
