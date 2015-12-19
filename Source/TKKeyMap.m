@@ -29,6 +29,7 @@
 		case NSCarriageReturnCharacter: return VTERM_KEY_ENTER;
 		case NSBackspaceCharacter: return VTERM_KEY_BACKSPACE;
 		case 0x1b: return VTERM_KEY_ESCAPE;
+		case NSDeleteCharacter: return VTERM_KEY_BACKSPACE;
 
 		case NSUpArrowFunctionKey: return VTERM_KEY_UP;
 		case NSDownArrowFunctionKey: return VTERM_KEY_DOWN;
