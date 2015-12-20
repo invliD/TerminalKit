@@ -207,9 +207,16 @@
 
 - (NSUInteger)drawCell:(VTermScreenCell*)cell atPosition:(VTermPos)pos {
 	CGRect cellPosition = [self rectFromPosition:pos width:cell->width];
+	
+	bool invert = cell->attrs.reverse;
 
 	NSColor *fgColor = [self colorFromVTColor:cell->fg];
 	NSColor *bgColor = [self colorFromVTColor:cell->bg];
+	if (invert) {
+		NSColor *tmp = fgColor;
+		fgColor = bgColor;
+		bgColor = tmp;
+	}
 	[bgColor set];
 	NSRectFill(cellPosition);
 
