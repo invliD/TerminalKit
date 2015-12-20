@@ -7,6 +7,8 @@
 
 @interface TKTerminalScreen : NSObject
 
+@property (nonatomic) VTermPos cursorPosition;
+
 + (instancetype)screenWithTerminalView:(TKTerminalView*)view vTerm:(VTerm*)vterm;
 - (instancetype)initWithTerminalView:(TKTerminalView*)view vTerm:(VTerm*)vterm;
 

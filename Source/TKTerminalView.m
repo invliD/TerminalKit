@@ -209,6 +209,9 @@
 	CGRect cellPosition = [self rectFromPosition:pos width:cell->width];
 	
 	bool invert = cell->attrs.reverse;
+	if ([mTerminalScreen cursorPosition].row == pos.row && [mTerminalScreen cursorPosition].col == pos.col) {
+		invert = !invert;
+	}
 
 	NSColor *fgColor = [self colorFromVTColor:cell->fg];
 	NSColor *bgColor = [self colorFromVTColor:cell->bg];

@@ -74,7 +74,10 @@ static VTermScreenCallbacks screen_callbacks = {
 }
 
 - (int) moveCursorFrom:(VTermPos)oldpos to:(VTermPos)pos visible:(int)visible {
-    return 0;
+	_cursorPosition = pos;
+	[mView setNeedsDisplayInRect:[mView rectFromPosition:oldpos width:1]];
+	[mView setNeedsDisplayInRect:[mView rectFromPosition:pos width:1]];
+	return 1;
 }
 
 - (int) setTermValue:(VTermValue*)val forProp:(VTermProp)prop {
