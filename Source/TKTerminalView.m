@@ -229,20 +229,21 @@
 	if (length) {
 		NSData *data = [NSData dataWithBytes:cell->chars length:length * sizeof(cell->chars[0])];
 		NSString *character = [[NSString alloc] initWithData:data encoding:NSUTF32LittleEndianStringEncoding];
+		if (character != nil) {
+			NSFont *font;
+			if (cell->attrs.bold)
+				font = [mFontManager boldFont];
+			else
+				font = [mFontManager regularFont];
 
-		NSFont *font;
-		if (cell->attrs.bold)
-			font = [mFontManager boldFont];
-		else
-			font = [mFontManager regularFont];
+			NSDictionary *attributes = @{
+				NSFontAttributeName: font,
+				NSForegroundColorAttributeName: fgColor,
+			};
+			NSAttributedString *formattedChar = [[NSAttributedString alloc] initWithString:character attributes:attributes];
 
-		NSDictionary *attributes = @{
-			NSFontAttributeName: font,
-			NSForegroundColorAttributeName: fgColor,
-		};
-		NSAttributedString *formattedChar = [[NSAttributedString alloc] initWithString:character attributes:attributes];
-
-		[formattedChar drawAtPoint:cellPosition.origin];
+			[formattedChar drawAtPoint:cellPosition.origin];
+		}
 	}
 	return cell->width;
 }
