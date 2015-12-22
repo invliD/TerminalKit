@@ -243,6 +243,16 @@
 			NSAttributedString *formattedChar = [[NSAttributedString alloc] initWithString:character attributes:attributes];
 
 			[formattedChar drawAtPoint:cellPosition.origin];
+
+			if (cell->attrs.underline) {
+				[fgColor set];
+				CGRect underline;
+				underline.origin.x = cellPosition.origin.x;
+				underline.origin.y = cellPosition.origin.y - font.descender + font.underlinePosition;
+				underline.size.width = cell->width * CELL_WIDTH;
+				underline.size.height = font.underlineThickness;
+				NSRectFill(underline);
+			}
 		}
 	}
 	return cell->width;
