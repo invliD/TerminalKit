@@ -75,8 +75,11 @@ static VTermScreenCallbacks screen_callbacks = {
 
 - (int) moveCursorFrom:(VTermPos)oldpos to:(VTermPos)pos visible:(int)visible {
 	_cursorPosition = pos;
-	[mView setNeedsDisplayInRect:[mView rectFromPosition:oldpos width:1]];
-	[mView setNeedsDisplayInRect:[mView rectFromPosition:pos width:1]];
+	VTermScreenCell cell;
+	vterm_screen_get_cell(mVTermScreen, oldpos, &cell);
+	[mView setNeedsDisplayInRect:[mView rectFromPosition:oldpos width:cell.width]];
+	vterm_screen_get_cell(mVTermScreen, pos, &cell);
+	[mView setNeedsDisplayInRect:[mView rectFromPosition:pos width:cell.width]];
 	return 1;
 }
 
