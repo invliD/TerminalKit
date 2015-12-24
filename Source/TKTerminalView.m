@@ -88,8 +88,8 @@
 
 - (void)updateSize {
 	CGSize viewSize = self.bounds.size;
-	_currentWidth = viewSize.width / CELL_WIDTH;
-	_currentHeight = viewSize.height / CELL_HEIGHT;
+	self.currentWidth = viewSize.width / CELL_WIDTH;
+	self.currentHeight = viewSize.height / CELL_HEIGHT;
 }
 
 - (void)setFrameSize:(NSSize)newSize {
